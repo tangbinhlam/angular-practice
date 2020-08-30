@@ -15,6 +15,7 @@ var app_routing_module_1 = require("./app-routing.module");
 var app_component_1 = require("./app.component");
 var environment_1 = require("src/environments/environment");
 var login_component_1 = require("./login/login.component");
+var forms_1 = require("@angular/forms");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -23,6 +24,7 @@ var AppModule = /** @class */ (function () {
             declarations: [app_component_1.AppComponent, login_component_1.LoginComponent],
             imports: [
                 platform_browser_1.BrowserModule,
+                forms_1.ReactiveFormsModule,
                 app_routing_module_1.AppRoutingModule,
                 fire_1.AngularFireModule.initializeApp(environment_1.environment.firebase),
                 auth_1.AngularFireAuthModule,

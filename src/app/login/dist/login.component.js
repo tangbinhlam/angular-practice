@@ -8,10 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.LoginComponent = void 0;
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
+    function LoginComponent(fb) {
+        this.fb = fb;
     }
-    LoginComponent.prototype.ngOnInit = function () { };
+    LoginComponent.prototype.ngOnInit = function () {
+        this.registerForm = this.fb.group({
+            firstName: ['', forms_1.Validators.required],
+            lastName: ['', forms_1.Validators.required],
+            email: ['', [forms_1.Validators.email, forms_1.Validators.required]],
+            password: ['', forms_1.Validators.required]
+        });
+    };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'app-login',
