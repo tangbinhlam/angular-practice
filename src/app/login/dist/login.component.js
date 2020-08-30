@@ -50,11 +50,12 @@ var LoginComponent = /** @class */ (function () {
         this.fb = fb;
         this.afAuth = afAuth;
         this.router = router;
+        this.action = 'login';
     }
     LoginComponent.prototype.ngOnInit = function () {
         this.registerForm = this.fb.group({
-            firstName: ['', forms_1.Validators.required],
-            lastName: ['', forms_1.Validators.required],
+            firstName: [''],
+            lastName: [''],
             email: ['', [forms_1.Validators.email, forms_1.Validators.required]],
             password: ['', forms_1.Validators.required]
         });
@@ -68,27 +69,49 @@ var LoginComponent = /** @class */ (function () {
                         _a = this.registerForm.value, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password;
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 4, , 5]);
-                        return [4 /*yield*/, this.afAuth.createUserWithEmailAndPassword(email, password)];
+                        _b.trys.push([1, 7, , 8]);
+                        resp = void 0;
+                        if (!this.isLogin) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.afAuth.signInWithEmailAndPassword(email, password)];
                     case 2:
+                        resp = _b.sent();
+                        return [3 /*break*/, 6];
+                    case 3: return [4 /*yield*/, this.afAuth.createUserWithEmailAndPassword(email, password)];
+                    case 4:
                         resp = _b.sent();
                         return [4 /*yield*/, resp.user.updateProfile({
                                 displayName: firstName + " " + lastName
                             })];
-                    case 3:
+                    case 5:
                         _b.sent();
+                        _b.label = 6;
+                    case 6:
                         this.registerForm.reset();
                         this.router.navigate(["/profile/" + resp.user.uid]);
-                        return [3 /*break*/, 5];
-                    case 4:
+                        return [3 /*break*/, 8];
+                    case 7:
                         error_1 = _b.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
                 }
             });
         });
     };
+    Object.defineProperty(LoginComponent.prototype, "isLogin", {
+        get: function () {
+            return this.action === 'login';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(LoginComponent.prototype, "isSignup", {
+        get: function () {
+            return this.action === 'signup';
+        },
+        enumerable: false,
+        configurable: true
+    });
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'app-login',

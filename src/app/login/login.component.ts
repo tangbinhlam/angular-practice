@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   registerForm: FormGroup;
+  action: 'login' | 'signup' = 'login';
 
   constructor(
     private fb: FormBuilder,
@@ -18,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: [''],
+      lastName: [''],
       email: ['', [Validators.email, Validators.required]],
       password: ['', Validators.required],
     });
@@ -28,17 +29,30 @@ export class LoginComponent implements OnInit {
   async onSubmit() {
     const { firstName, lastName, email, password } = this.registerForm.value;
     try {
-      const resp = await this.afAuth.createUserWithEmailAndPassword(
-        email,
-        password,
-      );
-      await resp.user.updateProfile({
-        displayName: `${firstName} ${lastName}`,
-      });
+      let resp;
+      if (this.isLogin) {
+        resp = await this.afAuth.signInWithEmailAndPassword(email, password);
+      } else {
+        resp = await this.afAuth.createUserWithEmailAndPassword(
+          email,
+          password,
+        );
+        await resp.user.updateProfile({
+          displayName: `${firstName} ${lastName}`,
+        });
+      }
       this.registerForm.reset();
       this.router.navigate([`/profile/${resp.user.uid}`]);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  get isLogin() {
+    return this.action === 'login';
+  }
+
+  get isSignup() {
+    return this.action === 'signup';
   }
 }
