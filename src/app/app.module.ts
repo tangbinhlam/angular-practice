@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, ProfileComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

@@ -46,9 +46,10 @@ exports.LoginComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(fb, afAuth) {
+    function LoginComponent(fb, afAuth, router) {
         this.fb = fb;
         this.afAuth = afAuth;
+        this.router = router;
     }
     LoginComponent.prototype.ngOnInit = function () {
         this.registerForm = this.fb.group({
@@ -77,6 +78,7 @@ var LoginComponent = /** @class */ (function () {
                     case 3:
                         _b.sent();
                         this.registerForm.reset();
+                        this.router.navigate(["/profile/" + resp.user.uid]);
                         return [3 /*break*/, 5];
                     case 4:
                         error_1 = _b.sent();

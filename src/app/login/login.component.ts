@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,7 +10,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private afAuth: AngularFireAuth) {}
+  constructor(
+    private fb: FormBuilder,
+    private afAuth: AngularFireAuth,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -31,6 +36,7 @@ export class LoginComponent implements OnInit {
         displayName: `${firstName} ${lastName}`,
       });
       this.registerForm.reset();
+      this.router.navigate([`/profile/${resp.user.uid}`]);
     } catch (error) {
       console.log(error);
     }

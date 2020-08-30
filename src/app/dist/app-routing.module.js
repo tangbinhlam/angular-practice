@@ -10,10 +10,15 @@ exports.AppRoutingModule = void 0;
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_component_1 = require("./login/login.component");
+var profile_component_1 = require("./profile/profile.component");
 var routes = [
     {
         path: '',
         component: login_component_1.LoginComponent
+    },
+    {
+        path: 'profile/:id',
+        component: profile_component_1.ProfileComponent
     },
 ];
 var AppRoutingModule = /** @class */ (function () {
