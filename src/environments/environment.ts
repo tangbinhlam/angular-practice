@@ -9,7 +9,7 @@ export const environment = {
     authDomain: 'angular-practice-c3a71.firebaseapp.com',
     databaseURL: 'https://angular-practice-c3a71.firebaseio.com>',
     projectId: 'angular-practice-c3a71',
-    storageBucket: '',
+    storageBucket: 'angular-practice-c3a71.appspot.com',
     messagingSenderId: '458689264498',
   },
 };
