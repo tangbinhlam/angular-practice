@@ -7,7 +7,7 @@ service firebase.storage {
     // 1 - file less than 5MB
     // 2 - conent type is an image
     match /{imageId} {
-      allow write: if request.resource.size < 5 * 1024 * 1024
+      allow write: if request.resource.size  < 5 * 1024 * 1024
       && request.resource.contentType.matchs('image/.*')
     }
   }
