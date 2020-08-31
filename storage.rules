@@ -1,8 +1,14 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if request.auth!=null;
+    match /user/{userId}/{fileName} {
+      allow read, write: if request.auth.uid == userId;
+    }
+    // 1 - file less than 5MB
+    // 2 - conent type is an image
+    match /{imageId} {
+      allow write: if request.resource.size < 5 * 1024 * 1024
+      && request.resource.contentType.matchs('image/.*')
     }
   }
 }
