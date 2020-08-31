@@ -1,10 +1,11 @@
-<div *ngIf="afAuth.user | async as user" class="container">
+<div *ngIf="userProfile$ | async as userProfile" class="container">
   <h1 class="header" style="width: 18rem;">User Profile</h1>
   <div class="card w-75">
       <div class="card-body">
-        <h5 class="card-title">{{user.displayName}}</h5>
-        <p class="card-text">{{user.email}}</p>
-        <p class="card-text">{{user.uid}}</p>
+        <h5 class="card-title">Name: {{userProfile.name}}</h5>
+        <p class="card-text">Email: {{userProfile.email}}</p>
+        <p class="card-text">UID: {{userProfile.uid}}</p>
+        <p class="card-text">Address: {{userProfile.address}}</p>
       </div>
   </div>
 </div>
