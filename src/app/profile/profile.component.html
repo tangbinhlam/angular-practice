@@ -1,11 +1,60 @@
-<div *ngIf="userProfile$ | async as userProfile" class="container">
-  <h1 class="header" style="width: 18rem;">User Profile</h1>
+<div *ngIf="userProfile$ | async as userProfile" class="container bg-blue">
+  <h1 class="header " style="width: 18rem;">User Profile</h1>
   <div class="card w-75">
       <div class="card-body">
         <h5 class="card-title">Name: {{userProfile.name}}</h5>
         <p class="card-text">Email: {{userProfile.email}}</p>
         <p class="card-text">UID: {{userProfile.uid}}</p>
-        <p class="card-text">Address: {{userProfile.address}}</p>
       </div>
   </div>
+</div>
+<div *ngIf="userProfile$ | async as userProfile" class="container">
+  <form class="col-md-6 register-form bg-light" [formGroup]="profileForm">
+
+    <div class="form-group">
+      <label for="uid">UID</label>
+      <input class="form-control" id="uid" formControlName='uid' type="uid" name="uid" readonly />
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input class="form-control" id="email" formControlName='email' type="email" name="email" readonly />
+    </div>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input class="form-control" id="name" formControlName='name' type="name" name="name" placeholder="Name" />
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input class="form-control" id="address" formControlName='address' type="address" name="address" placeholder="Address" />
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="city">City</label>
+        <input class="form-control" id="city" formControlName='city' type="text" name="city" placeholder="City" />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="state">State</label>
+        <input class="form-control" id="state" formControlName='state' type="text" name="state" placeholder="State" />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="zip">Zip Code</label>
+        <input class="form-control" id="zip" formControlName='zip' type="text" name="zip" placeholder="Zip Code" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input class="form-control" id="phone" formControlName='phone' type="phone" name="phone" placeholder="Phone" />
+    </div>
+    <div class="form-group">
+      <label for="specialty">Specialty</label>
+      <input  class="form-control" id="specialty" formControlName='specialty' type="text" name="specialty" placeholder="Specialty" />
+    </div>
+    <div class="form-group">
+      <label for="ip">IP</label>
+      <input  class="form-control" id="ip" formControlName='ip' type="text" name="ip" placeholder="Ip" />
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="onUpdate()" type="submit" [disabled]="profileForm.invalid">Update</button>
+    </div>
+  </form>
 </div>
