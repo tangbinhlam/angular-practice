@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { AuthService } from '../core/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,8 +15,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private afAuth: AngularFireAuth,
     private router: Router,
+    private afAuth: AngularFireAuth,
+    private auth: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class LoginComponent implements OnInit {
         await resp.user.updateProfile({
           displayName: `${firstName} ${lastName}`,
         });
+        await this.auth.createUserDocument();
       }
       this.registerForm.reset();
       this.router.navigate([`/profile/${resp.user.uid}`]);
