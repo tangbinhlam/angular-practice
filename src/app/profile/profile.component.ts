@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { UserProfile } from '../core/models/user-profile.model';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +30,7 @@ export class ProfileComponent implements OnInit {
   });
 
   constructor(
+    private authService: AuthService,
     public afs: AngularFirestore,
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -42,5 +45,7 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  onUpdate() {}
+  onUpdate() {
+    this.authService.updateUserDocument(this.profileForm.getRawValue());
+  }
 }

@@ -47,7 +47,11 @@
     </div>
     <div class="form-group">
       <label for="specialty">Specialty</label>
-      <input  class="form-control" id="specialty" formControlName='specialty' type="text" name="specialty" placeholder="Specialty" />
+      <select id="specialty" class="form-control" formControlName='specialty'>
+        <option value="FIELD_AGENT">Field Agnet</option>
+        <option value="CONVERT_OPERATIONS">Convert Operations</option>
+        <option value="INTELLIGENCE_OFFICER">Intelligence Officer</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="ip">IP</label>
