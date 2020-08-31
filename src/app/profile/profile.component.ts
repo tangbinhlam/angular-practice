@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import { UserProfile } from '../core/models/user-profile.model';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from '../core/services/auth.service';
 
 @Component({
@@ -16,6 +15,10 @@ import { AuthService } from '../core/services/auth.service';
 })
 export class ProfileComponent implements OnInit {
   userProfile$: Observable<UserProfile>;
+  downloadURL$: Observable<string>;
+  uploadProgress$: Observable<number>;
+  uid: string;
+  error: string;
   profileForm: FormGroup = this.fb.group({
     uid: [''],
     name: [''],
@@ -30,11 +33,17 @@ export class ProfileComponent implements OnInit {
   });
 
   constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
     private authService: AuthService,
     public afs: AngularFirestore,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-  ) {}
+    private afStorge: AngularFireStorage,
+  ) {
+    this.uid = this.route.snapshot.params['id'];
+    this.downloadURL$ = this.afStorge
+      .ref(`users/${this.uid}/profile-image`)
+      .getDownloadURL();
+  }
 
   ngOnInit() {
     this.userProfile$ = this.route.params.pipe(
@@ -47,5 +56,28 @@ export class ProfileComponent implements OnInit {
 
   onUpdate() {
     this.authService.updateUserDocument(this.profileForm.getRawValue());
+  }
+
+  fileChange(event) {
+    this.downloadURL$ = null;
+    this.error = null;
+
+    const file = event.target.files[0];
+    const filePath = `users/${this.uid}/profile-image`;
+    const fileRef = this.afStorge.ref(filePath);
+
+    const task = this.afStorge.upload(filePath, file);
+    task.catch((error) => (this.error = error.message));
+
+    this.uploadProgress$ = task.percentageChanges();
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          this.downloadURL$ = fileRef.getDownloadURL();
+        }),
+      )
+      .subscribe();
   }
 }

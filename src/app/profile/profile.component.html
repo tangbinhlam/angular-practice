@@ -9,56 +9,73 @@
   </div>
 </div>
 <div *ngIf="userProfile$ | async as userProfile" class="container">
-  <form class="col-md-6 register-form bg-light" [formGroup]="profileForm">
-
-    <div class="form-group">
-      <label for="uid">UID</label>
-      <input class="form-control" id="uid" formControlName='uid' type="uid" name="uid" readonly />
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input class="form-control" id="email" formControlName='email' type="email" name="email" readonly />
-    </div>
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input class="form-control" id="name" formControlName='name' type="name" name="name" placeholder="Name" />
-    </div>
-    <div class="form-group">
-      <label for="address">Address</label>
-      <input class="form-control" id="address" formControlName='address' type="address" name="address" placeholder="Address" />
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="city">City</label>
-        <input class="form-control" id="city" formControlName='city' type="text" name="city" placeholder="City" />
+  <div class="row border-danger" *ngIf="error">
+    <p class="text-danger">{{error}}</p>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <div *ngIf="downloadURL$ | async as downloadURL">
+        <img class="img-thumbnail"  [src]="downloadURL" alt="Profile image">
       </div>
-      <div class="form-group col-md-4">
-        <label for="state">State</label>
-        <input class="form-control" id="state" formControlName='state' type="text" name="state" placeholder="State" />
+      <div *ngIf="!(downloadURL$ | async)">
+        <img class="img-thumbnail" src="assets/profile-placeholder.png" alt="Profile image">
       </div>
-      <div class="form-group col-md-4">
-        <label for="zip">Zip Code</label>
-        <input class="form-control" id="zip" formControlName='zip' type="text" name="zip" placeholder="Zip Code" />
-      </div>
+      <input type="file" style="display: none;" #fileInput (change)="fileChange($event)" accept=".png,.jpg">
+      <progress max="100" [value]="uploadProgress$ | async"></progress>
+      <button class="btn btn-secondary float-right" (click)="fileInput.click()">Upload Photo</button>
     </div>
-    <div class="form-group">
-      <label for="phone">Phone</label>
-      <input class="form-control" id="phone" formControlName='phone' type="phone" name="phone" placeholder="Phone" />
+    <div class="col-8">
+      <form class="col-md-6 register-form bg-light" [formGroup]="profileForm">
+        <div class="form-group">
+          <label for="uid">UID</label>
+          <input class="form-control" id="uid" formControlName='uid' type="uid" name="uid" readonly />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input class="form-control" id="email" formControlName='email' type="email" name="email" readonly />
+        </div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input class="form-control" id="name" formControlName='name' type="name" name="name" placeholder="Name" />
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input class="form-control" id="address" formControlName='address' type="address" name="address" placeholder="Address" />
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="city">City</label>
+            <input class="form-control" id="city" formControlName='city' type="text" name="city" placeholder="City" />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="state">State</label>
+            <input class="form-control" id="state" formControlName='state' type="text" name="state" placeholder="State" />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="zip">Zip Code</label>
+            <input class="form-control" id="zip" formControlName='zip' type="text" name="zip" placeholder="Zip Code" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input class="form-control" id="phone" formControlName='phone' type="phone" name="phone" placeholder="Phone" />
+        </div>
+        <div class="form-group">
+          <label for="specialty">Specialty</label>
+          <select id="specialty" class="form-control" formControlName='specialty'>
+            <option value="FIELD_AGENT">Field Agnet</option>
+            <option value="CONVERT_OPERATIONS">Convert Operations</option>
+            <option value="INTELLIGENCE_OFFICER">Intelligence Officer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ip">IP</label>
+          <input  class="form-control" id="ip" formControlName='ip' type="text" name="ip" placeholder="Ip" />
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" (click)="onUpdate()" type="submit" [disabled]="profileForm.invalid">Update</button>
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="specialty">Specialty</label>
-      <select id="specialty" class="form-control" formControlName='specialty'>
-        <option value="FIELD_AGENT">Field Agnet</option>
-        <option value="CONVERT_OPERATIONS">Convert Operations</option>
-        <option value="INTELLIGENCE_OFFICER">Intelligence Officer</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="ip">IP</label>
-      <input  class="form-control" id="ip" formControlName='ip' type="text" name="ip" placeholder="Ip" />
-    </div>
-    <div class="form-group">
-      <button class="btn btn-primary" (click)="onUpdate()" type="submit" [disabled]="profileForm.invalid">Update</button>
-    </div>
-  </form>
+  </div>
 </div>
