@@ -23,6 +23,17 @@ const onlyAdmin = (next) =>
     map((claims) => claims.admin === true || ['']),
   );
 
+const allowOnlySelfOrAdmin = (next) =>
+  pipe(
+    customClaims,
+    map((claims) => {
+      if (claims.length == 0) {
+        return [''];
+      }
+      return next.params.id === claims.user_id || claims.admin === true;
+    }),
+  );
+
 const redirectLoggedInToProfileOrUsers = () =>
   pipe(
     customClaims,
@@ -52,7 +63,7 @@ const routes: Routes = [
     path: 'profile/:id',
     component: ProfileComponent,
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: onlyAllowSelf },
+    data: { authGuardPipe: allowOnlySelfOrAdmin },
   },
   {
     path: 'users',

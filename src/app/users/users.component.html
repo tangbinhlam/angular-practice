@@ -13,7 +13,7 @@
       <tr *ngFor="let user of users; let i = index">
         <th scope="row">{{i+1}}</th>
         <td >{{user.uid}}</td>
-        <td >{{user.name}}</td>
+        <td ><a [routerLink]="['/profile', user.uid]">{{user.name}}</a></td>
         <td >{{user.email}}</td>
         <td >{{user.address + ' ' + user.city + ', ' + user.state + ' ' + user.zip }}</td>
       </tr>
