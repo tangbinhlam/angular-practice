@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { UserProfile } from '../models/user-profile.model';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
+import { UserProfile } from '../models/user-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +41,15 @@ export class AuthService {
 
   updateUserDocument(userProfile) {
     return this.afs.doc(`users/${userProfile.uid}`).update(userProfile);
+  }
+
+  async redirectLogin() {
+    const user = await this.afAuth.currentUser;
+    const token = await user.getIdTokenResult();
+    if (token.claims.admin) {
+      this.router.navigate(['/users']);
+    } else {
+      this.router.navigate([`/profile/${user.uid}`]);
+    }
   }
 }

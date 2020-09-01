@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         await this.auth.createUserDocument();
       }
       this.registerForm.reset();
-      this.router.navigate([`/profile/${resp.user.uid}`]);
+      this.auth.redirectLogin();
     } catch (error) {
       console.log(error);
     }
