@@ -1,1 +1,22 @@
-<p>users works!</p>
+<div *ngIf="users$ | async as users">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <td scope="col">#</td>
+        <td scope="col">Uid</td>
+        <td scope="col">Name</td>
+        <td scope="col">Email</td>
+        <td scope="col">Address</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">{{i+1}}</th>
+        <td >{{user.uid}}</td>
+        <td >{{user.name}}</td>
+        <td >{{user.email}}</td>
+        <td >{{user.address + ' ' + user.city + ', ' + user.state + ' ' + user.zip }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

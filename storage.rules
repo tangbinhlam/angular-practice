@@ -2,7 +2,7 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
     match /user/{userId}/{fileName} {
-      allow read, write: if request.auth.uid == userId;
+      allow read, write: if request.auth.uid == userId || request.token.admin == true;
     }
     // 1 - file less than 5MB
     // 2 - conent type is an image
